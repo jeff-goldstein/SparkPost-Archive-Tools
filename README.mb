@@ -1,0 +1,50 @@
+# Archiver
+__v1.0 example code_
+Its an application written in php to demonstrate how to archive emails.  Each email sent out is archived by using the SparkPost SMPT API Archive
+functionality.  The archive email is sent to a domain that is routed back to SparkPost as an inbox relay for processing.  Once the archive
+email is obtained and parsed into a JSON structure it's sent to this code as the end point, which is also called a collector.  This application
+will take specific pieces of the json and create appropriate files for storage.  All of the files will be collected together info a 
+single directory made for each email.  The directory name will be a combination of the target email address and a timestamp.
+
+There is also a check to make sure the file does not get to big.  Once the file reaches the max filesize as determined by the input
+file ArchiveParameters.ini file, the log file will be rotated for long term storage.
+
+## Features
+1. Uses SparkPost SMTP API Archive facilities
+2. Uses Web Hooks
+3. Real time archivingSupport for overriding csv.source using flag
+
+## Installation/Usage
+1. Download code
+2. Install as a webhook end point
+
+#### Config
+1. ArchiveDirectory = ArchiveDir          //Location to store archived email
+2. ArchiveLogName = Archivelog.txt        //Log name for each email archived
+3. MaxArchiveLogSize = 15000000           //Max Log size.  Rotate the log if the file reaches this size
+4. DefaultTimeZone = America/Los_Angeles  //The archive creates a directory for each email archived.  Uniqueness is used by 
+                                            concatenating the email address to a timestamp.  This is the zone to use for the timestamp.
+
+## Development
+>  Simple php sample that pulls an inbox relay json structure info individual pieces then placed into data files for storage.  There 
+are five files saved off:
+
+1. The HTML format of the email concatenated to the original email address, from address and subject line
+2. The TEXT format of the email concatenated to the original email address, from address and subject line
+3. The rfc822 compliant email which can be resent or opened as an email
+4. The headers
+5. The whole json structure
+
+#### Todo
+1. Create a couple of hooks to archive to long term storage
+2. Check to see if any anti-spoofing validations can be done
+3. Possibly create a UI for archive search, visual inspection and resending  
+
+## Ancillary Files
+1. ArchiveStub.php  - Sample php code for sending an email with the SparkPost archive feature turned on
+2. ArchiveParameters.ini - Input directives file (see section ##config)
+
+
+## Changelog
+__v1.0__
+This is first version
