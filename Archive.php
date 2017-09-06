@@ -18,29 +18,11 @@
         return $table;
     }
 
-    function parseRequestHeaders()
-    {
-        $secret = Null;
-        $headers = array();
-        foreach ($_SERVER as $key => $value) {
-            if (substr($key, 0, 5) != 'HTTP_') {
-                continue;
-            }
-            $header = str_replace(' ', '-', ucwords(str_replace('_', ' ', strtolower(substr($key, 5)))));
-            $headers[$header] = $value;
-            if ($header == "X-Messagesystems-Webhook-Token") {
-                $secret = $value;
-            }
-        }
-        return $secret;
-    }
 
     function Archive($verb)
     {
-   
-        $sender = parseRequestHeaders();
+        
         if ($verb == "POST") {
-               
             //
             // Initialize Fields and obtain ini settings if there; otherwise use the following defaults
             //
